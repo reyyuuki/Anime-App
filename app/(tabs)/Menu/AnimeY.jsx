@@ -24,7 +24,6 @@ export default function TabOneScreen() {
   const [loading, setLoading] = useState(true);
   const [GenersImage, setGenersImage] = useState('');
   const [CalanderImage, setCalanderImage] = useState('');
-  const [anime, setAnime] = useState('');
 
 
   useEffect(() => {
@@ -48,7 +47,7 @@ export default function TabOneScreen() {
     };
     fetchTrendingAnime();
 
-  }, []);
+  }, [loading]);
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -112,7 +111,7 @@ export default function TabOneScreen() {
                 <View style={styles.relatedAnime}>
                   <Anime result={item} />
                   <Text style={styles.relatedAnimeTitle}>{item.title.english || item.title.native}</Text>
-                  <Text style={styles.relatedAnimeEpisode}>~|{item.episodeNumber}|~</Text>
+                  <Text style={styles.relatedAnimeEpisode}>~| {item.totalEpisodes} |~</Text>
                 </View>
               )}
               contentContainerStyle={{ gap: 10, padding: 10 }}
