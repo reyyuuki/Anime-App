@@ -6,19 +6,25 @@ import Loader from '../../components/Loader';
 import Anime from '../../components/Anime';
 
 
+
 const SearchPage = () => {
     const [data, setData] = useState([]);
+    
     const [Title, setTitle] = useState('');
+    const [name, setName] = useState('');
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchTrendingAnime = async () => {
             try {
-                const response = await fetch('https://consumet-api-two-nu.vercel.app/meta/anilist/trending');
+                const response = await fetch(`https://consumet-api-two-nu.vercel.app/meta/anilist/${name}`);
                 const result = await response.json();
+                console.log(result);
+
+              
                 if (result.results && result.results.length > 0) {
                     setData(result.results);
                 }
-                console.log(result);
+                
             } catch (error) {
                 console.error('Error fetching trending anime:', error);
             }
@@ -28,12 +34,12 @@ const SearchPage = () => {
         };
         fetchTrendingAnime();
 
-    }, [loading]);
+    }, [name]);
     const isDarkMode = useColorScheme() === 'dark';
     return (
         <ScrollView style={[styles.scrollView, { backgroundColor: isDarkMode ? 'black' : 'white' }]}>
             <View style={styles.InputContainer}>
-                <TextInput style={[styles.Input, { color: isDarkMode ? 'white' : 'black' }]} placeholder='Anime' placeholderTextColor={'grey'} />
+                <TextInput style={[styles.Input, { color: isDarkMode ? 'white' : 'black' }]} placeholder='Anime' placeholderTextColor={'grey'} onChangeText={setName}/>
                 <FontAwesome6 name='magnifying-glass' style={[styles.icon, { color: isDarkMode ? 'white' : 'black' }]} />
             </View>
             <View style={styles.Searchcontainer}>
@@ -46,8 +52,8 @@ const SearchPage = () => {
                             renderItem={({ item }) => (
                                 <View style={styles.searchItem}>
                                     <Anime result={item} />
-                                    <Text style={styles.searchResultText}>{item.title.english}</Text>
-                                    <Text style={styles.relatedAnimeEpisode}>~| {item.totalEpisodes} |~</Text>
+                                    <Text style={styles.searchResultText}>{item.title.english || item.title.romaji  || 'N/A'}</Text>
+                                    <Text style={styles.relatedAnimeEpisode}>~| {item.totalEpisodes || 'N/A'} |~</Text>
                                 </View>
                             )}
                             numColumns={2}
@@ -57,6 +63,7 @@ const SearchPage = () => {
                     }
                 </View>
             </View>
+           
         </ScrollView>
     );
 }
@@ -70,13 +77,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+   
     Input: {
-        backgroundColor: 'transparent',
         width: '90%',
         height: 50,
         borderRadius: 40,
         paddingHorizontal: 20,
-        paddingVertical: 10,
         marginTop: 30,
         borderWidth: 2,
         borderColor: 'deeppink',
@@ -85,7 +91,9 @@ const styles = StyleSheet.create({
     },
     row: {
         flex: 1,
-        justifyContent: "space-evenly"
+        justifyContent:'space-between',
+        padding: 10,
+        minWidth:'50%',
     },
     icon: {
         color: 'deeppink',
@@ -110,14 +118,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15
     },
     searchItem:{
-        marginBottom: 20,
-        paddingHorizontal: 10,
-        paddingVertical: 10,
-        gap:10,
+        padding:20
     },
     searchResultText:{
         width:100,
         fontFamily: 'Poppins_500Medium',
+        marginTop:10
     },
 })
 

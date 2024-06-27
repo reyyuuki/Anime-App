@@ -68,9 +68,11 @@ const styles = StyleSheet.create({
   list: {
     alignItems: 'center',
     paddingVertical: 10,
+    alignItems:'flex-start'
   },
   column: {
     justifyContent: 'space-around',
+    alignItems:'flex-start'
   },
 });
 

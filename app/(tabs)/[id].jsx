@@ -135,15 +135,15 @@ const Id = () => {
         </View>
       </View>
       <View style={[styles.DetailsContainer, {backgroundColor: isDarkMode? 'black': 'white'}]}>
-        <Details name="Mean Score" data={`${rating / 10}/10`} />
-        <Details name="Status" data={status} />
-        <Details name="Total Episodes" data={TotalEpisodes} />
-        <Details name="Average Duration" data={`${duration} min`} />
-        <Details name="Format" data={format} />
-        <Details name="Studio" data={studio} />
-        <Details name="Season" data={season} />
-        <Details name="Start Date" data={startDate} />
-        <Details name="End Date" data={endDate} />
+        <Details name="Mean Score" data={`${rating / 10}/10` || 'N/A'} />
+        <Details name="Status" data={status|| 'N/A'} />
+        <Details name="Total Episodes" data={TotalEpisodes|| 'N/A'} />
+        <Details name="Average Duration" data={`${duration} min`|| 'N/A'} />
+        <Details name="Format" data={format|| 'N/A'} />
+        <Details name="Studio" data={studio|| 'N/A'} />
+        <Details name="Season" data={season|| 'N/A'} />
+        <Details name="Start Date" data={startDate|| 'N/A'} />
+        <Details name="End Date" data={endDate|| 'N/A'} />
       </View>
       <View style={styles.Names}>
         <View style={styles.Tittles}>

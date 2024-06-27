@@ -3,7 +3,7 @@ import { StyleSheet, Pressable, Animated, Easing } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { Link } from "expo-router";
 import { useFonts, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
-import Anime from './Anime'; // Assuming Anime component is imported from the correct path
+import Anime from './Anime'; 
 
 const Courasale = ({ result }) => {
     const id = result.id;
@@ -56,7 +56,7 @@ const Courasale = ({ result }) => {
                 <View style={styles.slidingAnime}>
                     <Anime result={result} />
                     <View style={styles.animeInfo}>
-                        <Text style={styles.slidingAnimeTitle}>{result.title.english || result.title.native}</Text>
+                        <Text style={styles.slidingAnimeTitle}>{result.title.english || result.title.native || 'N/A'}</Text>
                         <Text style={styles.animeStatus}>Releasing</Text>
                         <View style={styles.genres}>
                             {result.genres.map((result, i) => (

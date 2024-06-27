@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useFonts, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import Loader from '../../../components/Loader';
 import { Link } from 'expo-router';
+import AnimeItem from '../../../components/AnimeItem';
 
 export default function TabOneScreen() {
   const data = [
@@ -24,6 +25,7 @@ export default function TabOneScreen() {
   const [loading, setLoading] = useState(true);
   const [GenersImage, setGenersImage] = useState('');
   const [CalanderImage, setCalanderImage] = useState('');
+  const [AdvancedSearch, setAdvancedSearch] = useState([]);
 
 
   useEffect(() => {
@@ -31,6 +33,14 @@ export default function TabOneScreen() {
       try {
         const response = await fetch('https://consumet-api-two-nu.vercel.app/meta/anilist/trending');
         const result = await response.json();
+
+        const response2 = await fetch('https://consumet-api-two-nu.vercel.app/meta/anilist/advanced-search');
+        const search = await response2.json();
+
+        if (search.results && search.results.length > 0) {
+          setAdvancedSearch(search.results);
+        }
+
         if (result.results && result.results.length > 0) {
           setAnimeList(result.results);
           setCalanderImage(result.results[4].cover);
@@ -54,12 +64,12 @@ export default function TabOneScreen() {
       <View style={styles.container}>
         <View style={styles.upperContainer}>
           <Link href={'/SearchPage'} asChild>
-         <Pressable style={styles.Search}>
-          <Text style={styles.SearchText}>Anime</Text>
-         </Pressable>
+            <Pressable style={styles.Search}>
+              <Text style={styles.SearchText}>Anime</Text>
+            </Pressable>
           </Link>
           <FontAwesome6 name='magnifying-glass' style={styles.icon} />
-          
+
           <FlatList
             style={styles.btnContainer}
             horizontal
@@ -100,7 +110,7 @@ export default function TabOneScreen() {
         </View>
         <View style={styles.lowerContainer}>
           <View style={styles.Related}>
-            <Text style={styles.RelatedText}>Related Anime</Text>
+            <Text style={[styles.PopularText, {marginTop:10}]}>Related Anime</Text>
           </View>
           {!loading ?
             <FlatList
@@ -110,8 +120,8 @@ export default function TabOneScreen() {
               renderItem={({ item }) => (
                 <View style={styles.relatedAnime}>
                   <Anime result={item} />
-                  <Text style={styles.relatedAnimeTitle}>{item.title.english || item.title.native}</Text>
-                  <Text style={styles.relatedAnimeEpisode}>~| {item.totalEpisodes} |~</Text>
+                  <Text style={styles.relatedAnimeTitle}>{(item.title.english || item.title.native || 'N/A').length > 25 ? (item.title.english || item.title.native).substring(0, 22) + '...' : (item.title.english || item.title.native)}</Text>
+                  <Text style={styles.relatedAnimeEpisode}>~| {item.totalEpisodes || 'N/A'} |~</Text>
                 </View>
               )}
               contentContainerStyle={{ gap: 10, padding: 10 }}
@@ -120,6 +130,20 @@ export default function TabOneScreen() {
             <Loader />
           }
         </View>
+      </View>
+      <View style={styles.Popular}>
+        <Text style={styles.PopularText}>Popular Anime</Text>
+        {!loading ?
+          <FlatList
+            data={AdvancedSearch}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <AnimeItem result={item} />
+            )}
+            contentContainerStyle={{ gap: 30 }}
+          /> :
+          <Loader />
+        }
       </View>
     </ScrollView>
   );
@@ -184,12 +208,23 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     borderWidth: 1,
     borderColor: 'white',
-    position:'absolute',
-    top:0
+    position: 'absolute',
+    top: 0
   },
-  SearchText:{
+  SearchText: {
     fontSize: 18,
     fontFamily: 'Poppins_700Bold',
+  },
+  Popular: {
+    minHeight: 400,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  PopularText:{
+    fontSize: 25,
+    fontFamily: 'Poppins_700Bold',
+    marginBottom: 20,
+    marginRight: 90,
   },
   icon: {
     zIndex: 1,
@@ -198,28 +233,15 @@ const styles = StyleSheet.create({
     top: 45,
     color: 'white',
     fontSize: 20,
-    zIndex:100
+    zIndex: 100
   },
   slider: {
     height: 500,
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex:-10
-  },
-  animeContainer: {
-    flexDirection: 'row',
-    width: 360,
-    height: 200,
-    backgroundColor: 'transparent',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-  },
-  animeName: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    width: 200
-  },
+    zIndex: -10
+  },  
   btnContainer: {
     flexDirection: 'row',
     height: 60,
@@ -256,29 +278,29 @@ const styles = StyleSheet.create({
   Related: {
     marginTop: 10,
     backgroundColor: 'transparent',
-    width: 200,
-    height: 80,
     paddingHorizontal: 30,
   },
   RelatedText: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 25,
     textAlign: 'center',
     marginTop: 10,
     marginBottom: 10,
   },
-  lowerContainer: {
-  },
+
   relatedAnime: {
     width: 120,
-    height: 400,
+    minHeight: 200,
     padding: 10,
     alignItems: 'center',
   },
   relatedAnimeTitle: {
-    marginTop: 10
+    marginTop: 10,
+    fontSize: 16,
+    fontFamily:'Poppins_500Medium'
   },
   relatedAnimeEpisode: {
-    marginTop: 10
+    marginTop: 10,
+    fontSize: 16,
+    fontFamily:'Poppins_500Medium'
   },
 });
