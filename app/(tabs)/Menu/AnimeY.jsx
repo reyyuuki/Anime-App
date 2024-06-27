@@ -54,7 +54,7 @@ export default function TabOneScreen() {
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <View style={styles.upperContainer}>
-          <Link href={`SearchPage`} asChild>
+          <Link href={'/SearchPage'} asChild>
          <Pressable style={styles.Search}>
           <Text style={styles.SearchText}>Anime</Text>
          </Pressable>
@@ -81,14 +81,12 @@ export default function TabOneScreen() {
                   <Courasale result={item} />
                 )}
                 keyExtractor={(item) => item.id.toString() || index.toString()}
-                contentContainerStyle={styles.contentContainer}
                 snapToAlignment='center'
                 decelerationRate='fast'
                 pagingEnabled
               /> :
               <Loader />
             }
-
           </View>
           <View style={styles.TypeContainer}>
             <Pressable style={styles.GenresBtn}>
@@ -208,6 +206,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex:-10
   },
   animeContainer: {
     flexDirection: 'row',
