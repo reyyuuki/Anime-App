@@ -12,11 +12,19 @@ const Geners = ({genres}) => {
       case "Comedy":
         return "https://s4.anilist.co/file/anilistcdn/media/anime/banner/21-wf37VakJmZqs.jpg";
       case "Fantasy":
-        return "https://s4.anilist.co/file/anilistcdn/media/anime/banner/166240-YdxoEhrfwNk0.jpg";
-      case "Drama":
         return "https://s4.anilist.co/file/anilistcdn/media/anime/banner/158709-ZGCammGG4F9a.jpg";
+      case "Drama":
+        return "https://s4.anilist.co/file/anilistcdn/media/anime/banner/163270-QshLCttd04s6.jpg";
       case "Psychological":
         return "https://s4.anilist.co/file/anilistcdn/media/anime/banner/153288-JNsWuMPMAuJL.jpg";
+        case "Thriller":
+          return "https://s4.anilist.co/file/anilistcdn/media/anime/banner/166240-YdxoEhrfwNk0.jpg";
+          case "Horror":
+            return "https://s4.anilist.co/file/anilistcdn/media/anime/banner/166710-ZRHB6rjcc089.jpg";
+            case "Mystery":
+              return "https://s4.anilist.co/file/anilistcdn/media/anime/banner/166873-GTi5imE5skM2.jpg";
+      case "Sci-Fi":
+        return "https://s4.anilist.co/file/anilistcdn/media/anime/banner/153518-7uRvV7SLqmHV.jpg";
       default:
         return "https://via.placeholder.com/150";
     }
@@ -66,13 +74,14 @@ const styles = StyleSheet.create({
     position:'absolute'
   },
   list: {
-    alignItems: 'center',
     paddingVertical: 10,
-    alignItems:'flex-start'
+    alignItems:'flex-start',
+    justifyContent:'space-between',
+    paddingHorizontal: 10,
   },
   column: {
-    justifyContent: 'space-around',
-    alignItems:'flex-start'
+    alignItems:'flex-start',
+    gap:15
   },
 });
 

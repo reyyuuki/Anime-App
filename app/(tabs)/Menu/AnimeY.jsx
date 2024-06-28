@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, FlatList, Pressable, ScrollView, useColorScheme, Image, ActivityIndicator } from 'react-native';
+import { StyleSheet, FlatList, Pressable, ScrollView, useColorScheme, Image } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { FontAwesome6 } from '@expo/vector-icons';
 import Anime from '@/components/Anime';
@@ -46,8 +46,6 @@ export default function TabOneScreen() {
           setCalanderImage(result.results[4].cover);
           setGenersImage(result.results[9].cover);
         }
-
-        console.log(result);
       } catch (error) {
         console.error('Error fetching trending anime:', error);
       }
@@ -110,7 +108,7 @@ export default function TabOneScreen() {
         </View>
         <View style={styles.lowerContainer}>
           <View style={styles.Related}>
-            <Text style={[styles.PopularText, {marginTop:10}]}>Related Anime</Text>
+            <Text style={[styles.PopularText, { marginTop: 10 }]}>Related Anime</Text>
           </View>
           {!loading ?
             <FlatList
@@ -209,7 +207,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     position: 'absolute',
-    top: 0
+    top: 20
   },
   SearchText: {
     fontSize: 18,
@@ -220,7 +218,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  PopularText:{
+  PopularText: {
     fontSize: 25,
     fontFamily: 'Poppins_700Bold',
     marginBottom: 20,
@@ -230,7 +228,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: 'absolute',
     right: 95,
-    top: 45,
+    top: 65,
     color: 'white',
     fontSize: 20,
     zIndex: 100
@@ -240,8 +238,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: -10
-  },  
+    zIndex: -10,
+  },
   btnContainer: {
     flexDirection: 'row',
     height: 60,
@@ -296,11 +294,11 @@ const styles = StyleSheet.create({
   relatedAnimeTitle: {
     marginTop: 10,
     fontSize: 16,
-    fontFamily:'Poppins_500Medium'
+    fontFamily: 'Poppins_500Medium'
   },
   relatedAnimeEpisode: {
     marginTop: 10,
     fontSize: 16,
-    fontFamily:'Poppins_500Medium'
+    fontFamily: 'Poppins_500Medium'
   },
 });

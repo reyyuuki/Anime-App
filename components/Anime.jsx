@@ -20,7 +20,7 @@ const Anime = ({ result }) => {
             />
             <View style={styles.ratingBtn}>
                 <Text style={styles.rating}>{result.rating/10 || 'N/A'}</Text>
-                    <FontAwesome6 name="star" size={12} color="white" />
+                    <FontAwesome6 name="star" size={11} color="white" />
             </View>
         </Pressable>
     </Link>
@@ -43,20 +43,21 @@ const styles = StyleSheet.create({
     },
     ratingBtn: {
         width:60,
-        height:25,
+        height:30,
         backgroundColor:'rgba(246,84,152,0.8)',
-        borderRadius:15,
+        borderTopLeftRadius:25,
         position:'absolute',
         justifyContent: 'center',
         alignItems: 'center',
-        bottom: -2,
-        right: -3,
+        bottom: -5,
+        right: -6,
         flexDirection:'row',
         paddingHorizontal:10,
-        gap:5
+        gap:3
     },
     rating:{
-        fontFamily:'Poppins_500Medium',
+        fontSize:12,
+        fontFamily:'Poppins_700Bold',
         color:'white',
         marginTop:3
     }

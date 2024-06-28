@@ -57,7 +57,7 @@ const Courasale = ({ result }) => {
                     <Anime result={result} />
                     <View style={styles.animeInfo}>
                         <Text style={styles.slidingAnimeTitle}>{result.title.english || result.title.native || 'N/A'}</Text>
-                        <Text style={styles.animeStatus}>Releasing</Text>
+                        <Text style={styles.animeStatus}>{result.status}</Text>
                         <View style={styles.genres}>
                             {result.genres.map((result, i) => (
                                 i < 3 ? <Text style={styles.genre} key={i}>{result} {i === 2 ? '' : ' •'}</Text> : null
@@ -135,9 +135,11 @@ const styles = StyleSheet.create({
         width: 360,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent:'center',
         padding: 10,
         borderRadius: 10,
         marginBottom: 60,
+        marginLeft: 30,
     },
     animeInfo: {
         marginLeft: 10,
