@@ -67,14 +67,16 @@ export default function TabOneScreen() {
             </Pressable>
           </Link>
           <FontAwesome6 name='magnifying-glass' style={styles.icon} />
-
+          <View style={styles.Profile}>
+            <Image style={styles.ProfileImage} source={require("../../../assets/images/Catgirl.jpg" )}/>
+          </View>
           <FlatList
             style={styles.btnContainer}
             horizontal
             data={data}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <Pressable style={[styles.btn, { backgroundColor: darkmode ? 'black' : 'white' }]}>
+              <Pressable style={[styles.btn, { backgroundColor: darkmode ? 'black' : 'white' , shadowColor:darkmode? 'black':'white'}]}>
                 <Text style={styles.btnText}>{item.title}</Text>
               </Pressable>
             )}
@@ -167,13 +169,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
+  Profile:{
+    height: 50,
+    width: 50,
+    borderRadius: 30,
+    position:'absolute',
+    top:50,
+    right: 15,
+    overflow: 'hidden',
+  },
+  ProfileImage: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 30,
+  },
   GenresBtn: {
-    height: 70,
-    width: 160,
+    height: 75,
+    width: 140,
     borderRadius: 20,
-    borderWidth: 2,
-    borderColor: 'white',
-    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: 'grey',
+    backgroundColor: 'transpareant',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 10,
@@ -194,7 +210,7 @@ const styles = StyleSheet.create({
     borderColor: 'deeppink'
   },
   Search: {
-    width: 200,
+    width: 250,
     height: 50,
     backgroundColor: 'rgba(0,0,0,0.3)',
     borderRadius: 40,
@@ -205,9 +221,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '400',
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: 'grey',
     position: 'absolute',
-    top: 20
+    top: 20,
+    left:30
   },
   SearchText: {
     fontSize: 18,
@@ -251,14 +268,13 @@ const styles = StyleSheet.create({
   btn: {
     width: 130,
     height: 40,
-    backgroundColor: 'black',
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
     borderWidth: 1,
     borderColor: 'white',
-    elevation: 20
+    elevation: 20,
   },
   btnText: {
     fontSize: 16,

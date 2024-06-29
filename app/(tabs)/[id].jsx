@@ -23,6 +23,9 @@ import Geners from "../../components/geners";
 import Loader from "../../components/Loader";
 import Details from "../../components/Details";
 import { FontAwesome6 } from "@expo/vector-icons";
+import Episodes from "../../components/Episodes";
+import { LinearGradient } from "expo-linear-gradient";
+import AnimeCard from "../../components/AnimeCard";
 
 const Id = () => {
   const [AnimeTitle, setAnimeTitle] = useState("");
@@ -43,7 +46,8 @@ const Id = () => {
   const [Recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [genres, setGenres] = useState("");
-  const [focused, setFocused] = useState(false);
+  const [focused, setFocused] = useState(true);
+  const [EpisodesData, setEpisodesData] = useState('');
   const { id } = useLocalSearchParams();
 
   const [fontloaded] = useFonts({
@@ -78,7 +82,8 @@ const Id = () => {
           setRecommendations(result.recommendations);
           setGenres(result.genres);
           setSynopsis(result.description.replace(/<\/?[^>]+(>|$)/g, ""));
-          setFocused(false);
+          setFocused(true);
+          setEpisodesData(result.episodes);
           setSeason(`${result.season}  ${result.endDate.year}`);
           const getMonthName = (monthNumber) => {
             const months = [
@@ -137,6 +142,10 @@ const Id = () => {
     ).start();
   }, [id]);
 
+  function Navigation(){
+    setFocused(!focused);
+  }
+
   const translateX = translateAnim.interpolate({
     inputRange: [0, 1],
     outputRange: [-200, 200],
@@ -148,23 +157,23 @@ const Id = () => {
   return (
     <>
       <View style={styles.TabBar}>
-        <View style={styles.Bar}>
-          <View style={styles.BarContain}>
+        <View style={[styles.Bar, {backgroundColor:isDarkMode ? "#1f1d1d": "#dce4e9"}]}>
+          <Pressable onPress={() => Navigation()} style={[styles.BarContain, focused && styles.ActiveTab]}>
             <FontAwesome6
               style={styles.icon}
               name="circle-info"
               color="white"
             />
             <Text style={styles.BarText}>Info</Text>
-          </View>
-          <View style={styles.BarContain}>
+          </Pressable>
+          <Pressable onPress={() => Navigation()} style={[styles.BarContain, !focused && styles.ActiveTab]}>
             <FontAwesome6
               style={styles.icon}
               name="clapperboard"
               color="white"
             />
             <Text style={styles.BarText}>Watch</Text>
-          </View>
+          </Pressable>
         </View>
       </View>
       <ScrollView
@@ -185,9 +194,27 @@ const Id = () => {
               style={styles.backgroundImage}
             />
           </Animated.View>
+          <LinearGradient
+              colors={
+                isDarkMode
+                  ? ["rgba(255,255,255,0)", "rgba(0,0,0,1)", "rgba(0,0,0,1)"]
+                  : [
+                      "rgba(255,255,255,0)",
+                      "rgba(255,255,255,1)",
+                      "rgba(255,255,255,1)",
+                    ]
+              }
+              style={{
+                position: "absolute",
+                top: 160,
+                left: 0,
+                right: 0,
+                height: 400,
+              }}
+            />
           <View style={styles.Info}>
             <View style={styles.animeInfo}>
-              <Anime result={{ image: AnimeImage, id }} />
+              <AnimeCard result={{ image: AnimeImage }} />
               <View style={styles.TitleInfo}>
                 <Text
                   style={[
@@ -203,7 +230,7 @@ const Id = () => {
             <Pressable
               style={[
                 styles.addbtn,
-                { backgroundColor: isDarkMode ? "black" : "white" },
+                { backgroundColor: "transparent" },
                 { borderColor: isDarkMode ? "white" : "black" },
               ]}
             >
@@ -285,7 +312,7 @@ const Id = () => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                   <View style={styles.CharacterInfo}>
-                    <Anime result={item} />
+                    <AnimeCard result={item} />
                     <Text
                       style={[
                         styles.CharacterName,
@@ -353,7 +380,7 @@ const Id = () => {
                     { color: isDarkMode ? "white" : "black" },
                   ]}
                 >
-                  Attack on tittan
+                  {AnimeTitle}
                 </Text>
               </View>
               <View style={styles.Anilistinfo}>
@@ -378,14 +405,15 @@ const Id = () => {
               </View>
             </View>
             <View style={styles.EpisodeInfo}>
-              <Text style={styles.tittle}>Episodes</Text>
-              <View style={styles.EpisodeContainer}>
-                <Image style={styles.EpisodeImage}/>
-                <View style={styles.EpisodeNumber}>
-                  <Text style={styles.EpisodeNumberText}>1</Text>
-                </View>
-                <Text style={styles.EpisodeName}>Peaceful Days</Text>
-              </View>
+              <Text style={[styles.tittle,{padding:20, fontSize:34,marginRight:120, color:isDarkMode? 'white':'black'}]}>Episodes</Text>
+              <FlatList
+              data={EpisodesData}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({item}) =>(
+                <Episodes result={item}/>
+              )}
+              contentContainerStyle={{ gap: 15, padding: 10 }}
+              />
             </View>
           </View>
         )}
@@ -400,47 +428,11 @@ const styles = StyleSheet.create({
   },
   EpisodeInfo:{
     width: "100%",
-    minHeight: 500,
-    backgroundColor: "blue",
-    justifyContent: "space-evenly",
+    minHeight: 300,
+    padding: 20,
+    justifyContent: "space-around",
     alignItems: "center",
-  },
-  EpisodeContainer:{
-    flexDirection: "row",
-    padding: 10,
-    backgroundColor:'grey',
-    width:'90%',
-    alignItems: "center",
-    height:120,
-    borderRadius:25,
-    overflow:'hidden'
-  },
-  EpisodeImage:{
-    width: 180,
-    height: 120,
-    borderRadius: 20,
-    backgroundColor:'green',
-    marginLeft:-10,
-   
-  },
-  EpisodeNumber:{
-    backgroundColor:'white',
-    width:30,
-    height:40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomRightRadius:20,
-    position:'absolute',
-    top:-2,
-  },
-  EpisodeNumberText:{
-    fontSize:20,
-    fontFamily:'Poppins_700Bold'
-  },
-  EpisodeName:{
-    fontSize:20,
-    fontFamily:'Poppins_700Bold',
-    width:100
+    borderRadius: 10,
   },
   TabBar: {
     justifyContent: "center",
@@ -458,7 +450,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "70%",
     height: 65,
-    backgroundColor: "black",
+    backgroundColor: "#1f1d1d",
     borderRadius: 50,
   },
   container: {
@@ -468,7 +460,6 @@ const styles = StyleSheet.create({
   Header: {
     width: "100%",
     minHeight: 150,
-    backgroundColor: "red",
     justifyContent: "space-evenly",
   },
   tittle: {
@@ -493,7 +484,6 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingHorizontal: 20,
   },
-  AnilistText: {},
   BarContain: {
     justifyContent: "space-evenly",
     alignItems: "center",
@@ -501,8 +491,10 @@ const styles = StyleSheet.create({
     width: 90,
     gap: 5,
     borderRadius: 25,
-    backgroundColor: "blue",
     padding: 10,
+  },
+  ActiveTab:{
+    backgroundColor:'deeppink'
   },
   Anilistinfo: {
     flexDirection: "row",
@@ -521,8 +513,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "white",
     fontFamily: "Poppins_700Bold",
-    borderBottomWidth: 2,
-    borderColor: "deeppink",
   },
   icon: {
     fontSize: 15,
