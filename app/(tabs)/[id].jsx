@@ -11,6 +11,7 @@ import {
   Animated,
   Easing,
   useColorScheme,
+  Image
 } from "react-native";
 import Anime from "../../components/Anime";
 import {
@@ -340,15 +341,50 @@ const Id = () => {
         ) : (
           <View style={styles.container}>
             <View style={styles.Header}>
-              <View style={[styles.tittle, { backgroundColor: isDarkMode ? "black" : "white" }]}>
-                <Text style={[styles.HeaderText, {color: isDarkMode? 'white': 'black'}]}>Attack on tittan</Text>
+              <View
+                style={[
+                  styles.tittle,
+                  { backgroundColor: isDarkMode ? "black" : "white" },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.HeaderText,
+                    { color: isDarkMode ? "white" : "black" },
+                  ]}
+                >
+                  Attack on tittan
+                </Text>
               </View>
               <View style={styles.Anilistinfo}>
-              <View style={[styles.Anilist, { backgroundColor: isDarkMode ? "black" : "white" }]}>
-              <FontAwesome6 name="folder-open" style={styles.notify}/>
-                <Text style={[styles.TitleText, {color: isDarkMode? 'white': 'black'},{fontSize:18}]}>Source:  Anilist</Text>
+                <View
+                  style={[
+                    styles.Anilist,
+                    { backgroundColor: isDarkMode ? "black" : "white" },
+                  ]}
+                >
+                  <FontAwesome6 name="folder-open" style={styles.notify} />
+                  <Text
+                    style={[
+                      styles.TitleText,
+                      { color: isDarkMode ? "white" : "black" },
+                      { fontSize: 18 },
+                    ]}
+                  >
+                    Source:  Anilist
+                  </Text>
+                </View>
+                <FontAwesome6 name="bell" style={styles.notify} />
               </View>
-              <FontAwesome6 name="bell" style={styles.notify}/>
+            </View>
+            <View style={styles.EpisodeInfo}>
+              <Text style={styles.tittle}>Episodes</Text>
+              <View style={styles.EpisodeContainer}>
+                <Image style={styles.EpisodeImage}/>
+                <View style={styles.EpisodeNumber}>
+                  <Text style={styles.EpisodeNumberText}>1</Text>
+                </View>
+                <Text style={styles.EpisodeName}>Peaceful Days</Text>
               </View>
             </View>
           </View>
@@ -361,6 +397,50 @@ const Id = () => {
 const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
+  },
+  EpisodeInfo:{
+    width: "100%",
+    minHeight: 500,
+    backgroundColor: "blue",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  EpisodeContainer:{
+    flexDirection: "row",
+    padding: 10,
+    backgroundColor:'grey',
+    width:'90%',
+    alignItems: "center",
+    height:120,
+    borderRadius:25,
+    overflow:'hidden'
+  },
+  EpisodeImage:{
+    width: 180,
+    height: 120,
+    borderRadius: 20,
+    backgroundColor:'green',
+    marginLeft:-10,
+   
+  },
+  EpisodeNumber:{
+    backgroundColor:'white',
+    width:30,
+    height:40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomRightRadius:20,
+    position:'absolute',
+    top:-2,
+  },
+  EpisodeNumberText:{
+    fontSize:20,
+    fontFamily:'Poppins_700Bold'
+  },
+  EpisodeName:{
+    fontSize:20,
+    fontFamily:'Poppins_700Bold',
+    width:100
   },
   TabBar: {
     justifyContent: "center",
@@ -381,40 +461,39 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     borderRadius: 50,
   },
-  container:{
-    width:'100%',
-    minHeight: '100%',
+  container: {
+    width: "100%",
+    minHeight: "100%",
   },
   Header: {
-    width:'100%',
-    minHeight:200,
-    backgroundColor:"red",
-    justifyContent:'space-evenly'
+    width: "100%",
+    minHeight: 150,
+    backgroundColor: "red",
+    justifyContent: "space-evenly",
   },
-  tittle:{
+  tittle: {
     fontSize: 20,
     color: "white",
     fontFamily: "Poppins_700Bold",
   },
-  Anilist:{
-    width:"90%",
+  Anilist: {
+    width: "90%",
     height: 55,
-    flexDirection:'row',
-    borderWidth:3,
-    
-    borderColor:'deeppink',
-    justifyContent:'space-evenly',
-    borderRadius:10,
-    alignItems: 'center'
+    flexDirection: "row",
+    borderWidth: 3,
+    borderColor: "deeppink",
+    justifyContent: "space-evenly",
+    borderRadius: 10,
+    alignItems: "center",
   },
   HeaderText: {
     fontSize: 20,
     color: "white",
     fontFamily: "Poppins_700Bold",
-    padding:10,
-    paddingHorizontal:20
+    padding: 10,
+    paddingHorizontal: 20,
   },
-  AnilistText:{},
+  AnilistText: {},
   BarContain: {
     justifyContent: "space-evenly",
     alignItems: "center",
@@ -425,18 +504,18 @@ const styles = StyleSheet.create({
     backgroundColor: "blue",
     padding: 10,
   },
-  Anilistinfo:{
+  Anilistinfo: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
     height: 40,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
-  notify:{
-    color:'grey',
+  notify: {
+    color: "grey",
     fontSize: 22,
-    marginLeft: 10
+    marginLeft: 10,
   },
   BarText: {
     fontSize: 15,
