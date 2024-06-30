@@ -88,7 +88,7 @@ const Courasale = ({ result }) => {
             />
         </View>
         <View style={styles.slidingAnime}>
-          <Anime result={result} />
+          <Anime result={result} isLink={true} />
           <View style={styles.animeInfo}>
             <Text style={styles.slidingAnimeTitle}>
               {result.title.english || result.title.native || "N/A"}
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   genre: {
     fontSize: 14,
     fontFamily: "Poppins_500Medium",
-    color: "rgba(255,255,255,0.8)",
+    color: "grey",
   },
   slidingAnimeTitle: {
     fontSize: 18,

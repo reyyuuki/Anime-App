@@ -11,7 +11,7 @@ import {
   Animated,
   Easing,
   useColorScheme,
-  Image
+  Image,
 } from "react-native";
 import Anime from "../../components/Anime";
 import {
@@ -47,7 +47,7 @@ const Id = () => {
   const [loading, setLoading] = useState(true);
   const [genres, setGenres] = useState("");
   const [focused, setFocused] = useState(true);
-  const [EpisodesData, setEpisodesData] = useState('');
+  const [EpisodesData, setEpisodesData] = useState("");
   const { id } = useLocalSearchParams();
 
   const [fontloaded] = useFonts({
@@ -114,7 +114,6 @@ const Id = () => {
           const Startday = result.startDate.day;
           const Startyear = result.startDate.year;
           setStartDate(`${Startday} ${startMonth}, ${Startyear}`);
-          console.log(result);
         }
       } catch (error) {
         console.error("Error fetching trending anime:", error);
@@ -142,7 +141,7 @@ const Id = () => {
     ).start();
   }, [id]);
 
-  function Navigation(){
+  function Navigation() {
     setFocused(!focused);
   }
 
@@ -150,15 +149,68 @@ const Id = () => {
     inputRange: [0, 1],
     outputRange: [-200, 200],
   });
+  const isDataAvailable = () => {
+    return (
+      AnimeTitle ||
+      AnimeImage ||
+      rating ||
+      status ||
+      TotalEpisodes ||
+      duration ||
+      format ||
+      studio ||
+      season ||
+      startDate ||
+      endDate ||
+      backImage ||
+      romajiName ||
+      synopsis ||
+      Character.length ||
+      Recommendations.length ||
+      genres.length ||
+      EpisodesData.length
+    );
+  };
+
   if (loading) {
     return <Loader />;
+  }
+
+  if (!isDataAvailable()) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            color: "red",
+          }}
+        >
+          Not Available
+        </Text>
+      </View>
+    );
   }
 
   return (
     <>
       <View style={styles.TabBar}>
-        <View style={[styles.Bar, {backgroundColor:isDarkMode ? "#1f1d1d": "#dce4e9"}]}>
-          <Pressable onPress={() => Navigation()} style={[styles.BarContain, focused && styles.ActiveTab]}>
+        <View
+          style={[
+            styles.Bar,
+            { backgroundColor: isDarkMode ? "#1f1d1d" : "#dce4e9" },
+          ]}
+        >
+          <Pressable
+            onPress={() => Navigation()}
+            style={[styles.BarContain, focused && styles.ActiveTab]}
+          >
             <FontAwesome6
               style={styles.icon}
               name="circle-info"
@@ -166,7 +218,10 @@ const Id = () => {
             />
             <Text style={styles.BarText}>Info</Text>
           </Pressable>
-          <Pressable onPress={() => Navigation()} style={[styles.BarContain, !focused && styles.ActiveTab]}>
+          <Pressable
+            onPress={() => Navigation()}
+            style={[styles.BarContain, !focused && styles.ActiveTab]}
+          >
             <FontAwesome6
               style={styles.icon}
               name="clapperboard"
@@ -195,23 +250,23 @@ const Id = () => {
             />
           </Animated.View>
           <LinearGradient
-              colors={
-                isDarkMode
-                  ? ["rgba(255,255,255,0)", "rgba(0,0,0,1)", "rgba(0,0,0,1)"]
-                  : [
-                      "rgba(255,255,255,0)",
-                      "rgba(255,255,255,1)",
-                      "rgba(255,255,255,1)",
-                    ]
-              }
-              style={{
-                position: "absolute",
-                top: 160,
-                left: 0,
-                right: 0,
-                height: 400,
-              }}
-            />
+            colors={
+              isDarkMode
+                ? ["rgba(255,255,255,0)", "rgba(0,0,0,1)", "rgba(0,0,0,1)"]
+                : [
+                    "rgba(255,255,255,0)",
+                    "rgba(255,255,255,1)",
+                    "rgba(255,255,255,1)",
+                  ]
+            }
+            style={{
+              position: "absolute",
+              top: 160,
+              left: 0,
+              right: 0,
+              height: 400,
+            }}
+          />
           <View style={styles.Info}>
             <View style={styles.animeInfo}>
               <AnimeCard result={{ image: AnimeImage }} />
@@ -222,9 +277,9 @@ const Id = () => {
                     { color: isDarkMode ? "white" : "black" },
                   ]}
                 >
-                  Anime details:{AnimeTitle}
+                  {AnimeTitle}
                 </Text>
-                <Text style={styles.animeStatus}>Releasing</Text>
+                <Text style={styles.animeStatus}>{status}</Text>
               </View>
             </View>
             <Pressable
@@ -236,6 +291,53 @@ const Id = () => {
             >
               <Text style={styles.addbtnText}>Add to list</Text>
             </Pressable>
+          </View>
+          <View
+            style={{
+              zIndex: 10,
+              width: "100%",
+              height: 50,
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Poppins_500Medium",
+                color: "grey",
+                fontSize: 20,
+                marginLeft: 20,
+              }}
+            >
+              Total of
+              <Text
+                style={{
+                  color: isDarkMode ? "white" : "black",
+                  fontFamily: "Poppins_700Bold",
+                }}
+              >
+                {" "}
+                {TotalEpisodes}
+              </Text>
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: 80,
+                marginRight:20
+              }}
+            >
+              <FontAwesome6
+                name="heart"
+                style={{ fontSize: 25, color: isDarkMode ? "white" : "black" }}
+              />
+              <FontAwesome6
+                name="share-nodes"
+                style={{ fontSize: 25, color: isDarkMode ? "white" : "black" }}
+              />
+            </View>
           </View>
         </View>
         {focused ? (
@@ -342,7 +444,7 @@ const Id = () => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                   <View style={styles.CharacterInfo}>
-                    <Anime result={item} />
+                    <Anime result={item} isLink={true} />
                     <Text
                       style={[
                         styles.TittleName,
@@ -368,21 +470,6 @@ const Id = () => {
         ) : (
           <View style={styles.container}>
             <View style={styles.Header}>
-              <View
-                style={[
-                  styles.tittle,
-                  { backgroundColor: isDarkMode ? "black" : "white" },
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.HeaderText,
-                    { color: isDarkMode ? "white" : "black" },
-                  ]}
-                >
-                  {AnimeTitle}
-                </Text>
-              </View>
               <View style={styles.Anilistinfo}>
                 <View
                   style={[
@@ -395,24 +482,32 @@ const Id = () => {
                     style={[
                       styles.TitleText,
                       { color: isDarkMode ? "white" : "black" },
-                      { fontSize: 18 },
                     ]}
                   >
-                    Source:  Anilist
+                    Source: Anilist
                   </Text>
                 </View>
-                <FontAwesome6 name="bell" style={styles.notify} />
+                <FontAwesome6 name="bell" style={{...styles.notify}} />
               </View>
             </View>
             <View style={styles.EpisodeInfo}>
-              <Text style={[styles.tittle,{padding:20, fontSize:34,marginRight:120, color:isDarkMode? 'white':'black'}]}>Episodes</Text>
+              <Text
+                style={[
+                  styles.tittle,
+                  { 
+                    padding:10,
+                    color: isDarkMode ? "white" : "black",
+                    width:"100%",
+                  },
+                ]}
+              >
+                Episodes
+              </Text>
               <FlatList
-              data={EpisodesData}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({item}) =>(
-                <Episodes result={item}/>
-              )}
-              contentContainerStyle={{ gap: 15, padding: 10 }}
+                data={EpisodesData}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => <Episodes result={item} />}
+                contentContainerStyle={{ gap: 15, padding: 10 }}
               />
             </View>
           </View>
@@ -426,10 +521,10 @@ const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
   },
-  EpisodeInfo:{
+  EpisodeInfo: {
     width: "100%",
     minHeight: 300,
-    padding: 20,
+    padding: 10,
     justifyContent: "space-around",
     alignItems: "center",
     borderRadius: 10,
@@ -459,8 +554,10 @@ const styles = StyleSheet.create({
   },
   Header: {
     width: "100%",
-    minHeight: 150,
+    minHeight: 80,
     justifyContent: "space-evenly",
+    alignItems:'center',
+    marginTop:60,
   },
   tittle: {
     fontSize: 20,
@@ -468,7 +565,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
   },
   Anilist: {
-    width: "90%",
+    width: "80%",
     height: 55,
     flexDirection: "row",
     borderWidth: 3,
@@ -493,12 +590,12 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: 10,
   },
-  ActiveTab:{
-    backgroundColor:'deeppink'
+  ActiveTab: {
+    backgroundColor: "deeppink",
   },
   Anilistinfo: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     alignItems: "center",
     width: "100%",
     height: 40,
@@ -634,6 +731,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     justifyContent: "center",
+    marginTop:10
   },
 
   Names: {

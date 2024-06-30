@@ -4,13 +4,14 @@ import { Link } from 'expo-router';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { useFonts, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
 
-const Anime = ({ result }) => {
+const Anime = ({ result , isLink}) => {
     const {  id, image} = result;
     const [fontloaded] = useFonts({
         Poppins_500Medium,
         Poppins_700Bold
       });
     return (
+        isLink ?
         <Link href={`/${id}`} asChild>
         <Pressable style={styles.animePhoto}>
             <Image
@@ -23,7 +24,14 @@ const Anime = ({ result }) => {
                     <FontAwesome6 name="star" size={11} color="white" />
             </View>
         </Pressable>
-    </Link>
+    </Link> : 
+     <Pressable style={styles.animePhoto}>
+            <Image
+                source={{ uri: result.image }}
+                style={styles.image}
+                resizeMode='cover'
+            />
+        </Pressable>
     );
 };
 

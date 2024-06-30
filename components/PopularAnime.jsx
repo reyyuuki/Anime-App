@@ -23,7 +23,7 @@ const AnimeItem = ({ result }) => {
           source={{ uri: result.cover }}
           blurRadius={1}
         />
-        <Anime result={result} />
+        <Anime result={result} isLink={true} />
         <View style={styles.Info}>
           <Text style={styles.TitleText}>
             {result.title.english || result.title.romaji || "N/A"}
