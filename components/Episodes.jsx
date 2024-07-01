@@ -1,10 +1,12 @@
 import React from "react";
 import { StyleSheet , Image, useColorScheme} from "react-native";
 import { Text, View } from '@/components/Themed';
+import { Link } from "expo-router";
 
 const Episodes = ({result}) => {
     const isDarkMode = useColorScheme() === 'dark';
   return (
+    <Link href={'Player/1'} >
     <View style={[styles.EpisodeContainer, {backgroundColor: isDarkMode? "#1f1d1d": 'white'}]}>
       <Image style={styles.EpisodeImage} source={{ uri: result.image}} />
       <View style={styles.EpisodeNumber}>
@@ -12,6 +14,7 @@ const Episodes = ({result}) => {
       </View>
       <Text style={styles.EpisodeName}>{result.title}</Text>
     </View>
+    </Link>
   );
 };
 

@@ -19,13 +19,10 @@ import {
 import Loader from "../../../components/Loader";
 import { Link } from "expo-router";
 import AnimeItem from "../../../components/PopularAnime";
+import Btn from "../../../components/btn";
 
 export default function TabOneScreen() {
-  const data = [
-    { id: "1", title: "This Season" },
-    { id: "2", title: "Next Season" },
-    { id: "3", title: "Previous Season" },
-  ];
+ 
   const [fontloaded] = useFonts({
     Poppins_500Medium,
     Poppins_700Bold,
@@ -93,31 +90,13 @@ export default function TabOneScreen() {
               source={require("../../../assets/images/Catgirl.jpg")}
             />
           </View>
-          <FlatList
-            style={styles.btnContainer}
-            horizontal
-            data={data}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <Pressable
-                style={[
-                  styles.btn,
-                  {
-                    backgroundColor: darkmode ? "black" : "white",
-                    shadowColor: darkmode ? "black" : "white",
-                  },
-                ]}
-              >
-                <Text style={styles.btnText}>{item.title}</Text>
-              </Pressable>
-            )}
-          />
+         <Btn/>
           <View style={styles.slider}>
             {!loading ? (
               <FlatList
                 horizontal
                 data={AnimeList}
-                renderItem={({ item, index }) => <Courasale result={item} />}
+                renderItem={({ item }) => <Courasale result={item} />}
                 keyExtractor={(item) => item.id.toString() || index.toString()}
                 snapToAlignment="center"
                 decelerationRate="fast"
@@ -157,7 +136,7 @@ export default function TabOneScreen() {
         <View style={styles.lowerContainer}>
           <View style={styles.Related}>
             <Text style={[styles.PopularText, { marginTop: 10 }]}>
-              Related Anime
+              Recently updated
             </Text>
           </View>
           {!loading ? (
@@ -195,7 +174,7 @@ export default function TabOneScreen() {
           <FlatList
             data={AdvancedSearch}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <AnimeItem result={item} />}
+            renderItem={({ item }) => <AnimeItem result={item} isLink={true}/>}
             contentContainerStyle={{ gap: 30 }}
           />
         ) : (
@@ -216,7 +195,7 @@ const styles = StyleSheet.create({
   upperContainer: {
     justifyContent: "center",
     alignItems: "center",
-    height: 500,
+    height: 540,
   },
   TypeContainer: {
     backgroundColor: "transparent",
@@ -242,7 +221,7 @@ const styles = StyleSheet.create({
   },
   GenresBtn: {
     height: 75,
-    width: 140,
+    width: 150,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: "grey",
@@ -261,13 +240,14 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   GenresText: {
-    borderBottomWidth: 3,
+    textAlign: "center",
+    borderBottomWidth: 2,
     fontFamily: "Poppins_700Bold",
     fontSize: 20,
     borderColor: "deeppink",
   },
   Search: {
-    width: 250,
+    width: 230,
     height: 50,
     borderRadius: 40,
     zIndex: 70,
@@ -275,7 +255,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     position: "absolute",
     top: 50,
-    left: 30,
+    left: 40,
     justifyContent: "space-around",
     gap: 70,
     alignItems: "center",
@@ -292,9 +272,8 @@ const styles = StyleSheet.create({
   },
   PopularText: {
     fontSize: 25,
+    width:260,
     fontFamily: "Poppins_700Bold",
-    marginBottom: 20,
-    marginRight: 90,
   },
   icon: {
     color: "white",
@@ -302,35 +281,13 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   slider: {
-    height: 500,
+    height: 540,
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
     zIndex: -10,
   },
-  btnContainer: {
-    flexDirection: "row",
-    height: 60,
-    zIndex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    transform: "translateY(350px)",
-  },
-  btn: {
-    width: 130,
-    height: 40,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 10,
-    borderWidth: 1,
-    borderColor: "white",
-    elevation: 20,
-  },
-  btnText: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
+  
   imageContainer: {
     marginTop: 20,
     alignItems: "center",
@@ -367,5 +324,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
     fontFamily: "Poppins_500Medium",
+    fontStyle:'italic',
+    color:'grey'
   },
 });

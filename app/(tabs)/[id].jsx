@@ -48,6 +48,7 @@ const Id = () => {
   const [genres, setGenres] = useState("");
   const [focused, setFocused] = useState(true);
   const [EpisodesData, setEpisodesData] = useState("");
+  const [isDataAvailable, setIsDataAvailable] = useState(false);
   const { id } = useLocalSearchParams();
 
   const [fontloaded] = useFonts({
@@ -84,6 +85,7 @@ const Id = () => {
           setSynopsis(result.description.replace(/<\/?[^>]+(>|$)/g, ""));
           setFocused(true);
           setEpisodesData(result.episodes);
+          setIsDataAvailable(true);
           setSeason(`${result.season}  ${result.endDate.year}`);
           const getMonthName = (monthNumber) => {
             const months = [
@@ -149,42 +151,26 @@ const Id = () => {
     inputRange: [0, 1],
     outputRange: [-200, 200],
   });
-  const isDataAvailable = () => {
-    return (
-      AnimeTitle ||
-      AnimeImage ||
-      rating ||
-      status ||
-      TotalEpisodes ||
-      duration ||
-      format ||
-      studio ||
-      season ||
-      startDate ||
-      endDate ||
-      backImage ||
-      romajiName ||
-      synopsis ||
-      Character.length ||
-      Recommendations.length ||
-      genres.length ||
-      EpisodesData.length
-    );
-  };
 
   if (loading) {
     return <Loader />;
   }
 
-  if (!isDataAvailable()) {
+  if (!isDataAvailable) {
     return (
       <View
         style={{
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
+          gap: 20,
         }}
       >
+        <FontAwesome6
+          name="triangle-exclamation"
+          style={{ fontSize: 62, color: "red" }}
+        />
+
         <Text
           style={{
             fontSize: 20,
@@ -326,7 +312,7 @@ const Id = () => {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 width: 80,
-                marginRight:20
+                marginRight: 20,
               }}
             >
               <FontAwesome6
@@ -384,7 +370,7 @@ const Id = () => {
                   {AnimeTitle}
                 </Text>
               </View>
-              <View style={styles.Tittles}>
+              <View>
                 <Text style={styles.DetailsText}>Synopsis</Text>
                 <Text
                   style={[
@@ -414,7 +400,7 @@ const Id = () => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                   <View style={styles.CharacterInfo}>
-                    <AnimeCard result={item} />
+                    <Anime result={item} isLink={false} />
                     <Text
                       style={[
                         styles.CharacterName,
@@ -487,17 +473,17 @@ const Id = () => {
                     Source: Anilist
                   </Text>
                 </View>
-                <FontAwesome6 name="bell" style={{...styles.notify}} />
+                <FontAwesome6 name="bell" style={{ ...styles.notify }} />
               </View>
             </View>
             <View style={styles.EpisodeInfo}>
               <Text
                 style={[
                   styles.tittle,
-                  { 
-                    padding:10,
+                  {
+                    padding: 10,
                     color: isDarkMode ? "white" : "black",
-                    width:"100%",
+                    width: "100%",
                   },
                 ]}
               >
@@ -556,8 +542,8 @@ const styles = StyleSheet.create({
     width: "100%",
     minHeight: 80,
     justifyContent: "space-evenly",
-    alignItems:'center',
-    marginTop:60,
+    alignItems: "center",
+    marginTop: 60,
   },
   tittle: {
     fontSize: 20,
@@ -731,7 +717,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     justifyContent: "center",
-    marginTop:10
+    marginTop: 10,
   },
 
   Names: {

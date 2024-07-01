@@ -178,9 +178,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
-    borderRadius: 10,
-    marginBottom: 60,
-    marginLeft: 30,
+    marginLeft:30
   },
   animeInfo: {
     marginLeft: 10,

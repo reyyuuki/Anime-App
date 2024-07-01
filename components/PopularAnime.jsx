@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Pressable, Image } from "react-native";
+import { StyleSheet, Pressable, Image, useColorScheme } from "react-native";
 import { Text, View } from "@/components/Themed";
 import { Link } from "expo-router";
 import Anime from "./Anime";
@@ -8,8 +8,10 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
+import { LinearGradient } from "expo-linear-gradient";
 
 const AnimeItem = ({ result }) => {
+  const isDarkMode = useColorScheme() === "dark";
   const id = result.id;
   let [fontsLoaded] = useFonts({
     Poppins_500Medium,
@@ -23,6 +25,24 @@ const AnimeItem = ({ result }) => {
           source={{ uri: result.cover }}
           blurRadius={1}
         />
+        <LinearGradient
+              colors={
+                isDarkMode
+                  ? ["rgba(255,255,255,0)", "rgba(40,41,41,1)", "rgba(0,0,0,0.8)","rgba(0,0,0,1)",]
+                  : [
+                      "rgba(255,255,255,0)",
+                      "rgba(255,255,255,1)",
+                      "rgba(255,255,255,1)",
+                    ]
+              }
+              style={{
+                position: "absolute",
+                top: 20,
+                left: 0,
+                right: 0,
+                height: 400,
+              }}
+            />
         <Anime result={result} isLink={true} />
         <View style={styles.Info}>
           <Text style={styles.TitleText}>
@@ -33,6 +53,7 @@ const AnimeItem = ({ result }) => {
             <Text style={styles.EpisodesText}>Episodes</Text>
           </View>
         </View>
+        
       </Pressable>
     </Link>
   );
@@ -51,7 +72,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   backImage: {
-    width: 330,
+    width:'100%',
     height: "100%",
     borderRadius: 10,
     position: "absolute",
